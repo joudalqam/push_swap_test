@@ -6,7 +6,7 @@
 /*   By: jalqam <jalqam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 16:45:16 by jalqam            #+#    #+#             */
-/*   Updated: 2024/12/30 18:04:36 by jalqam           ###   ########.fr       */
+/*   Updated: 2024/12/30 20:10:56 by jalqam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ t_map *init_map()
 	map = malloc(sizeof(t_map));
 	map->height = 0;	
 	map->width = 0;	
-	map->player = 0;	
-	map->exit = 0;	
-	map->collectable = 0;	
+	map->player_count = 0;	
+	map->exit_count = 0;	
+	map->collectable_count = 0;	
 	map->array = NULL;
 	return (map);
 }
@@ -109,41 +109,26 @@ int require_element(char *file, t_map *map)
 		while (map->array[i][j])
 		{
 			if (map->array[i][j] == 'P')
-				map->player++;
+				map->player_count++;
 			else if (map->array[i][j] == 'C')
-				map->collectable++;
+				map->collectable_count++;
 			else if (map->array[i][j] == 'E')
-				map->exit++;
+				map->exit_count++;
 			j++;					
 		}
 		i++;
 	}
 	close(fd);
-	return (map->exit == 1 && map->player == 1 && map->collectable > 0);
+	return (map->exit_count == 1 && map->player_count == 1 && map->collectable_count > 0);
 }
 int	main(void)
 {
+	
 	t_map *map;
 	map = init_map();
 	dimensions("map.ber", map);
 	read_map("map.ber", map);
 	require_element("map.ber",map);
-	printf("map->player count %d\n", map->player);
+	printf("map->player count %d\n", map->player_count);
 	print_map(map);
-	
-	// char *line;
-	// int fd;
-	// fd = open("t.txt",O_RDONLY | O_CREAT);
-
-	// line = get_next_line(fd);
-	// printf("%s",line);
-	// free(line);
-	// line = get_next_line(fd);
-	// printf("%s",line);
-	// while (line != NULL)
-	// {
-	// 	free(line);
-	// 	line = get_next_line(fd);
-	// }
-	// close(fd);
 }
