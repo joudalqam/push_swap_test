@@ -25,23 +25,31 @@ typedef struct s_images
     void    *collectible;
     void    *player;
     void    *exit;
+    int	imagewidth;
+	int	imageheight;
 
 }   t_images;
 
 typedef struct s_game
 {
-    void *mlk;
+    void *mlx;
     void *window;
     t_map *map;
+    t_images *image;
+    int player_x;
+    int player_y;
 } t_game; 
+
 
 // void    load_map(char *file, t_map *map);
 
 void    dimensions(char *map_name, t_map *map);
 void    read_map(char *map_name, t_map *map);
-
+t_images *init_structure(t_game *game);
 void print_map(t_map *map);
 int close_window(void *param);
+void put_image(t_game *game, t_map *map);
+int	get_image(t_game *game ,int i, int j);
 int require_element(char *file, t_map *map);
 // void line_count(char *file, t_map *map);
 #endif

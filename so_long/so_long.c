@@ -6,7 +6,7 @@
 /*   By: jalqam <jalqam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 16:45:16 by jalqam            #+#    #+#             */
-/*   Updated: 2024/12/30 20:10:56 by jalqam           ###   ########.fr       */
+/*   Updated: 2025/01/02 19:47:31 by jalqam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void    dimensions(char *map_name, t_map *map)
         free(line);
         line = get_next_line(fd);
     }
+        
     close(fd);
 }
 void    read_map(char *map_name, t_map *map)
@@ -121,14 +122,57 @@ int require_element(char *file, t_map *map)
 	close(fd);
 	return (map->exit_count == 1 && map->player_count == 1 && map->collectable_count > 0);
 }
-int	main(void)
+
+int main(void)
 {
-	
-	t_map *map;
-	map = init_map();
-	dimensions("map.ber", map);
-	read_map("map.ber", map);
-	require_element("map.ber",map);
-	printf("map->player count %d\n", map->player_count);
-	print_map(map);
+    t_game *game;
+    t_images *image;
+    t_map *map;
+
+    map = init_map();
+    game = malloc(sizeof(t_game));
+    
+    dimensions("map.ber", map);
+    read_map("map.ber", map);
+
+    if (!require_element("map.ber", map))
+    {
+        write(1, "Error: Map missing required elements\n", 37);
+        exit(1);
+    }
+    game->mlx = mlx_init();
+    game->window = mlx_new_window(game->mlx, 64 * map->width, 64 * map->height, "Hello world!");
+    mlx_hook(game->window, 17, 0, close_window, game->mlx);
+    print_map(map);
+    image = init_structure(game);
+    game->image = image;
+    game->map = map;
+    put_image(game, map);
+    mlx_loop(game->mlx);
 }
+
+// int	main(void)
+// {
+//     t_game  *game;
+//     t_images *image;
+//     t_map   *map;
+    
+//     map = malloc(sizeof(t_map));
+// 	game = malloc(sizeof(t_game));
+//     game->mlx = mlx_init();
+//     game->window = mlx_new_window(game->mlx, 620, 640, "Hello world!");
+//     mlx_hook(game->window, 17, 0, close_window, game->mlx);
+// 	map = init_map();
+// 	dimensions("map.ber", map);
+// 	read_map("map.ber", map);
+// 	require_element("map.ber",map);
+// 	printf("map->player count %d\n", map->player_count);
+// 	print_map(map);
+//     image=init_structure(game);
+//     game->image = image;
+//     put_image(game,map);
+//     // put_image(game, map);
+// //   printf("%d\n", map->height);
+// //   printf("%d\n", map->width);
+//     mlx_loop(game->mlx);
+// }

@@ -4,7 +4,7 @@ CFLAGS = -Wall -Werror -Wextra
 
 MFLAGS = -Lminilibx-linux -lmlx -lXext -lX11
 
-SRCS =  so_long.c 
+SRCS =  so_long.c load_images.c
 
 OBJ = $(SRCS:.c=.o)
 
