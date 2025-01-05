@@ -6,7 +6,7 @@
 /*   By: jalqam <jalqam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:08:16 by jalqam            #+#    #+#             */
-/*   Updated: 2025/01/02 19:34:50 by jalqam           ###   ########.fr       */
+/*   Updated: 2025/01/05 19:28:03 by jalqam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	get_image(t_game *game ,int i, int j)
 	else if (game->map->array[i][j] == 'E')
 		image = game->image->exit;
 	else if (game->map->array[i][j] == 'P')
-		image = game->image->floor;
+		image = game->image->player;
 	else if (game->map->array[i][j] == 'C')
 		image = game->image->collectible;
 	else
