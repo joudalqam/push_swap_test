@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_images.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jalqam <jalqam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:08:16 by jalqam            #+#    #+#             */
-/*   Updated: 2025/01/05 21:38:29 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/06 18:02:09 by jalqam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_images *init_structure(t_game *game)
 	return (img);
 }
 
-int	get_image(t_game *game ,int i, int j)
+void	get_image(t_game *game ,int i, int j)
 {
 	void	*image;
 
@@ -50,13 +50,12 @@ int	get_image(t_game *game ,int i, int j)
 	else if (game->map->array[i][j] == 'E')
 		image = game->image->exit;
 	else if (game->map->array[i][j] == 'P')
-		image = game->image->player;
+		image = game->image->floor;
 	else if (game->map->array[i][j] == 'C')
 		image = game->image->collectible;
 	else
-		return (1);
+		return;
 	mlx_put_image_to_window(game->mlx, game->window, image, j * 64, i * 64);
-	return (0);
 }
 
 void put_image(t_game *game, t_map *map)
@@ -65,7 +64,6 @@ void put_image(t_game *game, t_map *map)
 	int	j;
 
 	i = 0;
-	
 	while (i < map->height)
 	{
 		j = 0;
@@ -78,6 +76,3 @@ void put_image(t_game *game, t_map *map)
 	}
 }
 
-
-// init structure.
-// init values;

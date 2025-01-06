@@ -51,12 +51,14 @@ t_images *init_structure(t_game *game);
 void print_map(t_map *map);
 int close_window(void *param);
 void put_image(t_game *game, t_map *map);
-int	get_image(t_game *game ,int i, int j);
+void	get_image(t_game *game ,int i, int j);
 int require_element(char *file, t_map *map);
 void move_player(t_game *game, int x, int y);
 int keypress_handle(int keypress, t_game *game);
 void exit_game(t_game *game);
-void player_position(t_game *game);
+int check_map(char *file);
+int map_validity(t_map *map);
+void player_position(t_game *game, t_map *map);
 void redraw_player(t_game *game, void *mlx, void *win);
 // void line_count(char *file, t_map *map);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jalqam <jalqam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 16:45:16 by jalqam            #+#    #+#             */
-/*   Updated: 2025/01/06 11:19:39 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/06 20:11:07 by jalqam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,18 +130,28 @@ int main(void)
     t_images *image;
     t_map *map;
 
+    char *file_name = "map.ber";
+    if (!check_map(file_name))
+    {
+        write(1, "Error: Invalid map file extension. Expected .ber\n", 48);
+        exit(1);
+    }
     map = init_map();
     game = malloc(sizeof(t_game));
     
     dimensions("map.ber", map);
     read_map("map.ber", map);
-
+    if (!map_validity(map))  \
+    {
+        write(1, "Error: Map boundaries are not surrounded by 1\n", 46);
+        exit(1);
+    }
     if (!require_element("map.ber", map))
     {
         write(1, "Error: Map missing required elements\n", 37);
         exit(1);
     }
-   // player_position(game);
+    player_position(game, map);
     game->mlx = mlx_init();
     game->window = mlx_new_window(game->mlx, 64 * map->width, 64 * map->height, "Hello world!");
     mlx_hook(game->window, 17, 0, close_window, game->mlx);
@@ -149,10 +159,9 @@ int main(void)
     image = init_structure(game);
     game->image = image;
     game->map = map;
-     game->player_x = 1;
-    game->player_y = 1;
     put_image(game, map);
-    mlx_key_hook(game->window, keypress_handle, game);
+    redraw_player(game,game->mlx,game->window);
+    mlx_hook(game->window, 2, 1L <<0, keypress_handle, game);
     mlx_loop(game->mlx);
 }
 
