@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   invalid_map.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalqam <jalqam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 18:02:50 by jalqam            #+#    #+#             */
-/*   Updated: 2025/01/06 20:11:35 by jalqam           ###   ########.fr       */
+/*   Updated: 2025/01/06 23:30:39 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int map_validity(t_map *map)
 	i = 0;
     while (i < map->width) {
         if (map->array[0][i] != '1') {
-            return 0; 
+            return (0); 
         }
         i++;
     }
@@ -61,4 +61,33 @@ int map_validity(t_map *map)
         i++;
     }
     return (1);
+}
+
+int	is_square(t_game *game)
+{
+	size_t	row_length;
+	int		i;
+
+	row_length = removeln(game->map->array[0]);
+	i = 0;
+	while (game->map->array[i])
+	{
+		if (removeln(game->map->array[i]) != row_length)
+		{
+			perror("Error: The map is not square.");
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+size_t	removeln(char *line)
+{
+	size_t	len;
+
+	len = ft_strlen(line);
+	if (len > 0 && line[len - 1] == '\n')
+		len--;
+	return (len);
 }

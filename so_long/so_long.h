@@ -46,6 +46,10 @@ typedef struct s_game
 // void    load_map(char *file, t_map *map);
 
 void    dimensions(char *map_name, t_map *map);
+int is_valid_char(char c);
+int check_map_valid_chars(t_game *game);
+size_t	removeln(char *line);
+int	is_square(t_game *game);
 void    read_map(char *map_name, t_map *map);
 t_images *init_structure(t_game *game);
 void print_map(t_map *map);

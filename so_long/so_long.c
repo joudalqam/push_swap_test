@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalqam <jalqam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 16:45:16 by jalqam            #+#    #+#             */
-/*   Updated: 2025/01/06 20:11:07 by jalqam           ###   ########.fr       */
+/*   Updated: 2025/01/06 23:47:03 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,16 +141,21 @@ int main(void)
     
     dimensions("map.ber", map);
     read_map("map.ber", map);
-    if (!map_validity(map))  \
+    if (!map_validity(map))  
     {
         write(1, "Error: Map boundaries are not surrounded by 1\n", 46);
         exit(1);
     }
+    
     if (!require_element("map.ber", map))
     {
         write(1, "Error: Map missing required elements\n", 37);
         exit(1);
     }
+    // if (!check_map_valid_chars(game)) 
+    // {
+    //     exit(1); 
+    // }
     player_position(game, map);
     game->mlx = mlx_init();
     game->window = mlx_new_window(game->mlx, 64 * map->width, 64 * map->height, "Hello world!");
