@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalqam <jalqam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 16:45:16 by jalqam            #+#    #+#             */
-/*   Updated: 2025/01/02 19:47:31 by jalqam           ###   ########.fr       */
+/*   Updated: 2025/01/06 11:19:39 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_map *init_map()
 	map->exit_count = 0;	
 	map->collectable_count = 0;	
 	map->array = NULL;
+    map->count = 0;
 	return (map);
 }
 
@@ -140,6 +141,7 @@ int main(void)
         write(1, "Error: Map missing required elements\n", 37);
         exit(1);
     }
+   // player_position(game);
     game->mlx = mlx_init();
     game->window = mlx_new_window(game->mlx, 64 * map->width, 64 * map->height, "Hello world!");
     mlx_hook(game->window, 17, 0, close_window, game->mlx);
@@ -147,7 +149,10 @@ int main(void)
     image = init_structure(game);
     game->image = image;
     game->map = map;
+     game->player_x = 1;
+    game->player_y = 1;
     put_image(game, map);
+    mlx_key_hook(game->window, keypress_handle, game);
     mlx_loop(game->mlx);
 }
 
