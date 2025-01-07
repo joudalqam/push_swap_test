@@ -6,7 +6,7 @@
 /*   By: jalqam <jalqam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:08:16 by jalqam            #+#    #+#             */
-/*   Updated: 2025/01/06 18:02:09 by jalqam           ###   ########.fr       */
+/*   Updated: 2025/01/07 19:34:31 by jalqam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_images *init_structure(t_game *game)
 	img->exit = mlx_xpm_file_to_image(game->mlx, "exit.xpm", &width, &height);
 	if(!img->exit)
 		perror("failed to load image");
+	img->exit_win = mlx_xpm_file_to_image(game->mlx, "exit2.xpm", &width, &height);
 	img->floor= mlx_xpm_file_to_image(game->mlx, "floor.xpm", &width, &height);
 	if (!img->floor)
 		perror("failed to load image");
@@ -48,7 +49,12 @@ void	get_image(t_game *game ,int i, int j)
 	else if (game->map->array[i][j] == '0')
 		image = game->image->floor;
 	else if (game->map->array[i][j] == 'E')
-		image = game->image->exit;
+	{
+		if (game->map->collectable_count == 0)
+			image = game->image->exit_win;
+		else
+			image = game->image->exit;
+	}
 	else if (game->map->array[i][j] == 'P')
 		image = game->image->floor;
 	else if (game->map->array[i][j] == 'C')
@@ -60,14 +66,15 @@ void	get_image(t_game *game ,int i, int j)
 
 void put_image(t_game *game, t_map *map)
 {
+	(void)map;
 	int	i;
 	int	j;
 
 	i = 0;
-	while (i < map->height)
+	while (i < game->map->height)
 	{
 		j = 0;
-		while(j < map->width)
+		while(j < game->map->width)
 		{
 			 get_image(game, i, j);
 			j++;

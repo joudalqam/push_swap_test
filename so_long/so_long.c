@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jalqam <jalqam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 16:45:16 by jalqam            #+#    #+#             */
-/*   Updated: 2025/01/06 23:47:03 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/07 20:12:05 by jalqam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,28 @@ int close_window(void *param)
     exit(0);
 }
 
-t_map *init_map()
+t_map *init_map(t_game *game)
 {
-	t_map *map;
-
-	map = malloc(sizeof(t_map));
-	map->height = 0;	
-	map->width = 0;	
-	map->player_count = 0;	
-	map->exit_count = 0;	
-	map->collectable_count = 0;	
-	map->array = NULL;
-    map->count = 0;
-	return (map);
+    game->map = malloc(sizeof(t_map));  // Allocate memory for game->map
+    if (!game->map)
+    {
+        perror("Error: Memory allocation failed for map.");
+        exit(EXIT_FAILURE);
+    }
+    game->map->height = 0;
+    game->map->width = 0;
+    game->map->player_count = 0;
+    game->map->collectable_count = 0;
+    game->map->exit_count = 0;
+    game->map->array = NULL;
+    game->map->count = 0;
+    game->image = NULL;
+    game->mlx = NULL;
+    game->window = NULL;
+    return game->map;
 }
 
-
-void    dimensions(char *map_name, t_map *map)
+void    line_count(char *map_name, t_map *map)
 {
     int     fd;
     char    *line;
@@ -45,12 +50,14 @@ void    dimensions(char *map_name, t_map *map)
         exit(1);
     }
     line = get_next_line(fd);
+    // printf("the line from gnl : %s",line);
     if (!line)
     {
         write(1, "Error: Empty map\n", 17);
         exit(1);
     }
     map->width = ft_strlen(line) - 1;
+    // printf("width is %d\n",map->width);
     map->height = 0;
     while (line)
     {
@@ -58,7 +65,6 @@ void    dimensions(char *map_name, t_map *map)
         free(line);
         line = get_next_line(fd);
     }
-        
     close(fd);
 }
 void    read_map(char *map_name, t_map *map)
@@ -92,6 +98,7 @@ void print_map(t_map *map)
         printf("read map fucntion %s\n", map->array[i]);
         i++;
     }
+
 }
 
 
@@ -116,7 +123,7 @@ int require_element(char *file, t_map *map)
 				map->collectable_count++;
 			else if (map->array[i][j] == 'E')
 				map->exit_count++;
-			j++;					
+			j++;
 		}
 		i++;
 	}
@@ -124,74 +131,66 @@ int require_element(char *file, t_map *map)
 	return (map->exit_count == 1 && map->player_count == 1 && map->collectable_count > 0);
 }
 
-int main(void)
+int main(int argc, char **argv)
 {
     t_game *game;
     t_images *image;
-    t_map *map;
 
-    char *file_name = "map.ber";
-    if (!check_map(file_name))
-    {
-        write(1, "Error: Invalid map file extension. Expected .ber\n", 48);
-        exit(1);
-    }
-    map = init_map();
+    if (argc != 2)
+        return (0);
     game = malloc(sizeof(t_game));
-    
-    dimensions("map.ber", map);
-    read_map("map.ber", map);
-    if (!map_validity(map))  
+
+    game->map = init_map(game);
+    line_count(argv[1], game->map);
+    read_map(argv[1], game->map);
+    if (!check_wall(game->map))
     {
         write(1, "Error: Map boundaries are not surrounded by 1\n", 46);
         exit(1);
     }
-    
-    if (!require_element("map.ber", map))
+    if (!require_element("map.ber", game->map))
     {
         write(1, "Error: Map missing required elements\n", 37);
         exit(1);
     }
-    // if (!check_map_valid_chars(game)) 
-    // {
-    //     exit(1); 
-    // }
-    player_position(game, map);
+    player_position(game, game->map);
     game->mlx = mlx_init();
-    game->window = mlx_new_window(game->mlx, 64 * map->width, 64 * map->height, "Hello world!");
+    game->window = mlx_new_window(game->mlx, 64 * game->map->width, 64 * game->map->height, "Hello world!");
     mlx_hook(game->window, 17, 0, close_window, game->mlx);
-    print_map(map);
+    print_map(game->map);
     image = init_structure(game);
     game->image = image;
-    game->map = map;
-    put_image(game, map);
+    game->count = 0;
+    put_image(game, game->map);
     redraw_player(game,game->mlx,game->window);
     mlx_hook(game->window, 2, 1L <<0, keypress_handle, game);
     mlx_loop(game->mlx);
 }
 
-// int	main(void)
+
+
+// t_game *init_game(char *argv[], t_game *game)
 // {
-//     t_game  *game;
-//     t_images *image;
-//     t_map   *map;
-    
-//     map = malloc(sizeof(t_map));
-// 	game = malloc(sizeof(t_game));
+//     game = malloc(sizeof(t_game));
+//     if (!game)
+//     {
+//         perror("Error: Memory allocation failed for game.");
+//         return NULL;
+//     }
+//     game = init_map(game);  // Initialize the map
+//     read_map(argv[1], game->map);  // Ensure read_map properly initializes game->map->array
+//     player_position(game, game->map);
+//     game = init_player();  // Make sure this function is correctly implemented
+//     if (!is_square(game) || !check_wall(game->map) || !valid_path(game))
+//     {
+//         perror("Error: Invalid map.");
+//         exit_game(game);
+//     }
 //     game->mlx = mlx_init();
-//     game->window = mlx_new_window(game->mlx, 620, 640, "Hello world!");
-//     mlx_hook(game->window, 17, 0, close_window, game->mlx);
-// 	map = init_map();
-// 	dimensions("map.ber", map);
-// 	read_map("map.ber", map);
-// 	require_element("map.ber",map);
-// 	printf("map->player count %d\n", map->player_count);
-// 	print_map(map);
-//     image=init_structure(game);
-//     game->image = image;
-//     put_image(game,map);
-//     // put_image(game, map);
-// //   printf("%d\n", map->height);
-// //   printf("%d\n", map->width);
-//     mlx_loop(game->mlx);
+//     game->window = mlx_new_window(game->mlx, game->map->width * 64,
+//                                   game->map->height * 64, "so_long");
+//     game->image = init_structure(game);
+//     put_image(game, game->map);
+//     game->map->collectable_count = collect_count(game);
+//     return game;
 // }
