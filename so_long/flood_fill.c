@@ -6,7 +6,7 @@
 /*   By: jalqam <jalqam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 12:19:10 by jalqam            #+#    #+#             */
-/*   Updated: 2025/01/07 12:32:03 by jalqam           ###   ########.fr       */
+/*   Updated: 2025/01/26 19:49:23 by jalqam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 t_flood	*init_floodfill(char **map, t_map *map_flood, int *collectibles)
 {
-	t_flood	*flood;
-
+	t_flood	*flood;	
 	flood = malloc(sizeof(t_flood));
 	if (!flood)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: jalqam <jalqam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:08:16 by jalqam            #+#    #+#             */
-/*   Updated: 2025/01/07 19:34:31 by jalqam           ###   ########.fr       */
+/*   Updated: 2025/01/27 14:51:57 by jalqam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,24 @@
 t_images *init_structure(t_game *game)
 {
 	t_images	*img;
-	int	width;
-	int	height;
-
+	
 	img = malloc(sizeof(t_images));
-	width =64;
-	height=64;
-	img->wall = mlx_xpm_file_to_image(game->mlx, "wall.xpm", &width, &height);
+	img->imageheight = 64;
+	img->imagewidth = 64;
+	img->wall = mlx_xpm_file_to_image(game->mlx, "wall.xpm", &img->imagewidth, &img->imageheight);
 	if(!img->wall)
 		perror("failed to load image");
-	img->collectible = mlx_xpm_file_to_image(game->mlx, "collect.xpm", &width, &height);
+	img->collectible = mlx_xpm_file_to_image(game->mlx, "collect.xpm", &img->imagewidth, &img->imageheight);
 	if(!img->collectible)
 		perror("failed to load image");
-	img->exit = mlx_xpm_file_to_image(game->mlx, "exit.xpm", &width, &height);
+	img->exit = mlx_xpm_file_to_image(game->mlx, "exit.xpm", &img->imagewidth, &img->imageheight);
 	if(!img->exit)
 		perror("failed to load image");
-	img->exit_win = mlx_xpm_file_to_image(game->mlx, "exit2.xpm", &width, &height);
-	img->floor= mlx_xpm_file_to_image(game->mlx, "floor.xpm", &width, &height);
+	img->exit_win = mlx_xpm_file_to_image(game->mlx, "exit2.xpm", &img->imagewidth, &img->imageheight);
+	img->floor= mlx_xpm_file_to_image(game->mlx, "floor.xpm", &img->imagewidth, &img->imageheight);
 	if (!img->floor)
 		perror("failed to load image");
-	img->player= mlx_xpm_file_to_image(game->mlx, "player.xpm", &width, &height);
+	img->player= mlx_xpm_file_to_image(game->mlx, "player.xpm", &img->imagewidth, &img->imageheight);
 	if (!img->floor)
 		perror("failed to load image");
 	return (img);
@@ -64,22 +62,21 @@ void	get_image(t_game *game ,int i, int j)
 	mlx_put_image_to_window(game->mlx, game->window, image, j * 64, i * 64);
 }
 
-void put_image(t_game *game, t_map *map)
+void put_image(t_game *game)
 {
-	(void)map;
 	int	i;
 	int	j;
 
 	i = 0;
 	while (i < game->map->height)
 	{
-		j = 0;
-		while(j < game->map->width)
-		{
-			 get_image(game, i, j);
-			j++;
-		}
-		i++;
-	}
+	    j = 0;
+	    while(j < game->map->width)
+	    {
+	    	 get_image(game, i, j);
+	    	j++;
+	    }
+	    i++;
+    }
 }
 

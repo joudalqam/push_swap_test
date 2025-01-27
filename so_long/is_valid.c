@@ -60,30 +60,30 @@ int collect_count(t_game *game)
     return (count);
 }
 
-int valid_path(t_game *game)
-{
-    t_flood data;
-    char **copy;
-    int     collect;
+// int valid_path(t_game *game)
+// {
+//     t_flood data;
+//     char **copy;
+//     int     collect;
 
-    copy = fmap(game->map->array, game->map->height);
-    if(!copy)
-        return (1);
-    collect = collect_count(game); // maybe game->map
-    data.map = copy;
-    data.map_foold = game->map;
-    data.collectibles = &collect;
-    flood_fill(game->player_x, game->player_y, &data);
-    free_2d_array(copy , game->map->height);
-    if(collect > 0)
-    {
-        perror("Error: Not all collectibles are reachable.");
-	    return (1);
-    }
-    if (!data.map_foold->path)
-	{
-		perror("Error: Exit is not reachable.");
-		return (1);
-	}
-	return (0);
-}
+//     copy = fmap(game->map->array, game->map->height);
+//     if(!copy)
+//         return (1);
+//     collect = collect_count(game); // maybe game->map
+//     data.map = copy;
+//     data.map_foold = game->map;
+//     data.collectibles = &collect;
+//     flood_fill(game->player->player_x, game->player->player_y, &data);
+//     free_2d_array(copy , game->map->height);
+//     if(collect > 0)
+//     {
+//         perror("Error: Not all collectibles are reachable.");
+// 	    return (1);
+//     }
+//     if (!data.map_foold->path)
+// 	{
+// 		perror("Error: Exit is not reachable.");
+// 		return (1);
+// 	}
+// 	return (0);
+// }
