@@ -6,7 +6,7 @@
 /*   By: jalqam <jalqam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 18:02:50 by jalqam            #+#    #+#             */
-/*   Updated: 2025/01/07 14:37:59 by jalqam           ###   ########.fr       */
+/*   Updated: 2025/01/27 19:33:43 by jalqam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,24 +45,23 @@ int check_wall(t_map *map)
     return (1);
 }
 
-int is_square(t_game *game)
+int	is_square(t_game *game)
 {
-    if (!game->map->array || !game->map->array[0])
-    {
-        perror("Error: Map array is not initialized.");
-        return (1);
-    }
+	size_t	row_length;
+	int		i;
 
-    size_t row_length = removeln(game->map->array[0]);
-    for (int i = 0; game->map->array[i]; i++)
-    {
-        if (removeln(game->map->array[i]) != row_length)
-        {
-            perror("Error: The map is not square.");
-            return (1);
-        }
-    }
-    return (0);
+	row_length = removeln(game->map->array[0]);
+	i = 0;
+	while (game->map->array[i])
+	{
+		if (removeln(game->map->array[i]) != row_length)
+		{
+			perror("Error: The map is not square.");
+			return (1);
+		}
+		i++;
+	}
+	return (0);
 }
 
 

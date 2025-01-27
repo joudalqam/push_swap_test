@@ -6,7 +6,7 @@
 /*   By: jalqam <jalqam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:08:16 by jalqam            #+#    #+#             */
-/*   Updated: 2025/01/27 14:51:57 by jalqam           ###   ########.fr       */
+/*   Updated: 2025/01/27 19:45:23 by jalqam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,12 @@ t_images *init_structure(t_game *game)
 	img->imageheight = 64;
 	img->imagewidth = 64;
 	img->wall = mlx_xpm_file_to_image(game->mlx, "wall.xpm", &img->imagewidth, &img->imageheight);
-	if(!img->wall)
-		perror("failed to load image");
 	img->collectible = mlx_xpm_file_to_image(game->mlx, "collect.xpm", &img->imagewidth, &img->imageheight);
-	if(!img->collectible)
-		perror("failed to load image");
 	img->exit = mlx_xpm_file_to_image(game->mlx, "exit.xpm", &img->imagewidth, &img->imageheight);
-	if(!img->exit)
-		perror("failed to load image");
 	img->exit_win = mlx_xpm_file_to_image(game->mlx, "exit2.xpm", &img->imagewidth, &img->imageheight);
 	img->floor= mlx_xpm_file_to_image(game->mlx, "floor.xpm", &img->imagewidth, &img->imageheight);
-	if (!img->floor)
-		perror("failed to load image");
 	img->player= mlx_xpm_file_to_image(game->mlx, "player.xpm", &img->imagewidth, &img->imageheight);
-	if (!img->floor)
+	if(!img->wall || !img->collectible || !img->exit || !img->floor || !img->exit_win || !img->player)
 		perror("failed to load image");
 	return (img);
 }

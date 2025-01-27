@@ -89,6 +89,9 @@ void	get_image(t_game *game ,int i, int j);
 void put_image(t_game *game);
 int	is_right(t_game *game);
 int	valid_path(t_game *game);
+int check_map_valid_chars(t_game *game);
+int is_valid_char(char c);
+
 int	number_collectibtotal(t_map *map);
 void	free_map(t_game *game);
 int keypress_handle(int keypress, t_game *game);

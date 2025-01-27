@@ -6,7 +6,7 @@
 /*   By: jalqam <jalqam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 16:45:16 by jalqam            #+#    #+#             */
-/*   Updated: 2025/01/27 17:54:29 by jalqam           ###   ########.fr       */
+/*   Updated: 2025/01/27 20:11:55 by jalqam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ t_map	*init_map(t_game *game)
 	}
 	map->width = 0;
 	map->height = 0;
+	map->collectable_count = 0;
+	map->exit_count = 0;
+	map->width = 0;
 	map->array = NULL;
 	return (map);
 }
@@ -133,11 +136,14 @@ t_map	*store_map(t_game *game, char **av)
 	{
 		game->map->array[i] = get_next_line(fd);
 		if (i == 0)
-			game->map->width = ft_strlen(game->map->array[i]) - 1;
+		{
+			game->map->width = ft_strlen(game->map->array[i]) - 2;
+		}
+		
 		i++;
 	}
 	game->map->height = line_count;
-	game->map->array[i] = NULL;
+	game->map->array[line_count] = NULL;
 	close(fd);
 	return (game->map);
 }
@@ -342,12 +348,12 @@ t_game	*init_game(char **argv)
 	game = malloc(sizeof(t_game));
 	if (!game)
 		return (NULL);
-	init_values(game);
+	// init_values(game);
 	game->map = init_map(game);
 	store_map(game, argv);
 	game->player = init_player();
 	get_player_postion(game);
-	if (is_valid(game->map, game) || is_square(game) || valid_path(game))
+	if (check_map_valid_chars(game) || is_square(game) || valid_path(game))
 	{
 		perror("Error: Invalid map.");
 		exit_game(game);

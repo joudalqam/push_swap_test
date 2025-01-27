@@ -30,13 +30,13 @@ int check_map_valid_chars(t_game *game)
         {
             if (!is_valid_char(game->map->array[i][j]))
             {
-                return (0);
+                return (1);
             }
             j++;
         }
         i++;
     }
-    return (1);
+    return (0);
 }
 int collect_count(t_game *game)
 {
