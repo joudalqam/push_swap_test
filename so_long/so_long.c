@@ -6,7 +6,7 @@
 /*   By: jalqam <jalqam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 16:45:16 by jalqam            #+#    #+#             */
-/*   Updated: 2025/01/27 20:11:55 by jalqam           ###   ########.fr       */
+/*   Updated: 2025/01/28 20:08:13 by jalqam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,9 +137,8 @@ t_map	*store_map(t_game *game, char **av)
 		game->map->array[i] = get_next_line(fd);
 		if (i == 0)
 		{
-			game->map->width = ft_strlen(game->map->array[i]) - 2;
+			game->map->width = ft_strlen(game->map->array[i]) - 1;
 		}
-		
 		i++;
 	}
 	game->map->height = line_count;
