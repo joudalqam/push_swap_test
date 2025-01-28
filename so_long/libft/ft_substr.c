@@ -6,7 +6,7 @@
 /*   By: jalqam <jalqam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 12:15:19 by jalqam            #+#    #+#             */
-/*   Updated: 2024/12/22 16:44:16 by jalqam           ###   ########.fr       */
+/*   Updated: 2025/01/28 18:20:56 by jalqam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		ptr[i] = str[start + i];
 		i++;
 	}
+	ptr[i] = '\0';
 	return (ptr);
 }
